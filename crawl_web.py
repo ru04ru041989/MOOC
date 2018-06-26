@@ -30,3 +30,10 @@ def get_all_links(page):
             break
     return links
 
+
+def crawl_web(seed):
+    # at beginning, put input url to tocrawl, set crawled to []
+    
+    tocrawl = [seed]   # seed: given url, tocrawl:prepare the url for crawing
+    crawled = [] # store the url which is crawed
+
