@@ -76,4 +76,9 @@ def crawl_web(seed):
     
     return index  # return the final structure for lookup to search
     
-
+def record_user_click(index,keyword,url):
+    urls = lookup(index,keyword)
+    if urls:
+        for entry in urls:
+            if entry[0] == url:
+                entry[1] = entry[1] +1
