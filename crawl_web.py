@@ -45,6 +45,12 @@ def add_to_index(index, keyword, url): # add the index
     # index = [keyword1, [ky1_url1,ky1_url2,...],
     #          keyword2, [ky2_url1,ky2_url2,...]]
     
+def add_page_to_index(index, url, content): # pair the url to all the words in the webpage
+    words = content.split() # split the str in the page into words
+    for word in words: 
+        add_to_index(index, word, url)
+            # for all the word in this page, pair with the url(which has this word)
+        
 
 def crawl_web(seed):
     tocrawl = [seed]   # seed: given url, tocrawl:prepare the url for crawing
