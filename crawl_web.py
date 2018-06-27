@@ -32,17 +32,18 @@ def union(p,q): # merge 2 list except the same item
         if e not in p:
             p.append(e)
             
-def add_to_index(index, keyword, url): # add the index
+def add_to_index(index, keyword, url):
+    # format of index: [[keyword, [[url, count], [url, count],..]],...]
     for entry in index:
         if entry[0] == keyword:
-            # check if current url exist already
-            if url not in entry[1]:
-                entry[1].append(url)
+            for urls in entry[1]:
+                # check if current url exist already
+                if urls[0] != url:
+                    entry[1].append([url,0])
             return
-    index.append([keyword, [url]])
-    # a data structure call index, which storage keyword and according url
-    # index = [keyword1, [ky1_url1,ky1_url2,...],
-    #          keyword2, [ky2_url1,ky2_url2,...]]
+    # not found, add new keyword to index
+    index.append([keyword, [url,0]])
+
     
 def add_page_to_index(index, url, content): # pair the url to all the words in the webpage
     words = content.split() # split the str in the page into words
