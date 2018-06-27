@@ -17,9 +17,9 @@ def get_next_target(page):
     start_quote = page.find('"', start_link)
     end_quote = page.find('"', start_quote + 1)
     url = page[start_quote + 1:end_quote]
-    return url, end_quote
+    return url, end_quote # return the url and the pos of the url in the given page
 
-def get_all_links(page):
+def get_all_links(page): # getting all the url in the given page
     links = []
     while True:
         url,endpos = get_next_target(page)
@@ -30,10 +30,21 @@ def get_all_links(page):
             break
     return links
 
-def union(p,q):
+def union(p,q): # merge 2 list except the same item
     for e in q:
         if e not in p:
             p.append(e)
+            
+def add_to_index(index, keyword, url): # add the index
+    for entry in index:
+        if entry[0] == keyword:
+            entry[1].append(url)
+            return
+    index.append([keyword, [url]])
+    # a data structure call index, which storage keyword and according url
+    # index = [keyword1, [ky1_url1,ky1_url2,...],
+    #          keyword2, [ky2_url1,ky2_url2,...]]
+    
 
 def crawl_web(seed):
     tocrawl = [seed]   # seed: given url, tocrawl:prepare the url for crawing
