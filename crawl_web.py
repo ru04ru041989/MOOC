@@ -35,7 +35,9 @@ def union(p,q): # merge 2 list except the same item
 def add_to_index(index, keyword, url): # add the index
     for entry in index:
         if entry[0] == keyword:
-            entry[1].append(url)
+            # check if current url exist already
+            if url not in entry[1]:
+                entry[1].append(url)
             return
     index.append([keyword, [url]])
     # a data structure call index, which storage keyword and according url
