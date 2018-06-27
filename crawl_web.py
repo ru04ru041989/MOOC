@@ -50,6 +50,12 @@ def add_page_to_index(index, url, content): # pair the url to all the words in t
     for word in words: 
         add_to_index(index, word, url)
             # for all the word in this page, pair with the url(which has this word)
+            
+def lookup(index, keyword): # look into index, find the given keyword, return the urls
+    for entry in index:
+        if entry[0] == keyword:
+            return entry[1]
+    return []
         
 
 def crawl_web(seed):
