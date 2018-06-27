@@ -30,10 +30,25 @@ def get_all_links(page):
             break
     return links
 
+def union(p,q):
+    for e in q:
+        if e not in p:
+            p.append(e)
 
 def crawl_web(seed):
-    # at beginning, put input url to tocrawl, set crawled to []
-    
     tocrawl = [seed]   # seed: given url, tocrawl:prepare the url for crawing
     crawled = [] # store the url which is crawed
+    
+    # start crawling 
+    while tocrawl:               # repeate till no url in tocrawl
+        page = tocrawl.pop()     # using pop() to extract last url in tocrawl into page
+        
+        if page not in crawled:  # if the url(in page) not in crawled [not crawl yet]
+            union(tocrawl, get_all_links(get_page(page)))
+                # crawing the page using get_all_links() and add the new links to tocrawl
+            crawled.append(page)
+                # after crawing, add the crawed url(page) to crawled
+    
+    return crawled  # return crawled url
+    
 
