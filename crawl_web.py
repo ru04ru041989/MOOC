@@ -61,17 +61,20 @@ def lookup(index, keyword): # look into index, find the given keyword, return th
 def crawl_web(seed):
     tocrawl = [seed]   # seed: given url, tocrawl:prepare the url for crawing
     crawled = [] # store the url which is crawed
+    index = [] # add the url, content of the page in to index
     
     # start crawling 
     while tocrawl:               # repeate till no url in tocrawl
         page = tocrawl.pop()     # using pop() to extract last url in tocrawl into page
         
         if page not in crawled:  # if the url(in page) not in crawled [not crawl yet]
-            union(tocrawl, get_all_links(get_page(page)))
+            content = get_page(page) # extract the content for current url
+            add_page_to_index(index,page,content) # update index
+            union(tocrawl, get_all_links(content)) # update tocrawl with url in current page
                 # crawing the page using get_all_links() and add the new links to tocrawl
             crawled.append(page)
                 # after crawing, add the crawed url(page) to crawled
     
-    return crawled  # return crawled url
+    return index  # return the final structure for lookup to search
     
 
