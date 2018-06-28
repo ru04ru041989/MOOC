@@ -17,10 +17,8 @@ def make_hashtable(nbuckets):
     Creating an Empty Hash Table
     returns an empty hash table with nbuckets empty buckets.
     '''
-    i = 0
     Htable = []
-    while i < nbuckets:
+    for i in range(0,nbuckets):
         Htable.append([])
-        i = i +1
     
     return Htable
