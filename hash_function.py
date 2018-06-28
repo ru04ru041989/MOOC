@@ -40,3 +40,12 @@ def hashtable_add(htable,key,value):
     
     return htable  
 
+
+def hashtable_lookup(htable,key):
+    '''return the ralue associated with that key '''
+    
+    bucket = hashtable_get_bucket(htable,key)
+    for i in bucket:
+        if i[0] == key:
+            return i[1]
+    return []
