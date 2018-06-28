@@ -29,3 +29,14 @@ def hashtable_get_bucket(htable,keyword):
     h_index = hash_string(keyword,len(htable))
     
     return htable[h_index]
+
+
+def hashtable_add(htable,key,value):
+    '''adds the key to the hashtable in correct bucket with the value
+    return the new hashtable'''
+    
+    index = hashtable_get_bucket(htable,key)
+    index.append([key, value])
+    
+    return htable  
+
