@@ -45,10 +45,11 @@ def hashtable_lookup(htable,key):
     '''return the ralue associated with that key '''
     
     bucket = hashtable_get_bucket(htable,key)
-    for i in bucket:
-        if i[0] == key:
-            return i[1]
-    return None
+    entry = bucket_find(bucket,key)
+    if entry:
+        return entry[1]
+    else:
+        return None
 
 
 def hashtable_update(htable,key,value):
@@ -57,9 +58,18 @@ def hashtable_update(htable,key,value):
     Otherwise, add a new entry for the key and value.'''
     
     bucket = hashtable_get_bucket(htable,key)
-    for i in bucket:
-        if i[0] == key:
-            i[1] = value
-    bucket.append([key, value])
+    entry = bucket_find(bucket,key)
+    if entry:
+        entry[1] = value
+    else:
+        bucket.append([key, value])
     
     return htable
+
+def bucket_find(bucket,key):
+    '''refactoring, 
+    simplify function 'hashtable_update' and  'hashtable_lookup' '''
+    for entry in bucket:
+        if entry[0] == key:
+            return entry
+    return None
