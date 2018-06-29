@@ -48,4 +48,18 @@ def hashtable_lookup(htable,key):
     for i in bucket:
         if i[0] == key:
             return i[1]
-    return []
+    return None
+
+
+def hashtable_update(htable,key,value):
+    '''updates the value associated with key
+    If key is already in the table, change the value to the new value. 
+    Otherwise, add a new entry for the key and value.'''
+    
+    bucket = hashtable_get_bucket(htable,key)
+    for i in bucket:
+        if i[0] == key:
+            i[1] = value
+    bucket.append([key, value])
+    
+    return htable
