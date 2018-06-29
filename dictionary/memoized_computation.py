@@ -15,12 +15,10 @@ def cached_execution(cache, proc, proc_input):
     '''save the pairs of input and result of the proc function in dictionary cache
     so that if the same input was given, no need to run proc function again'''
     
-    if proc_input in cache:
-        return cache[proc_input]
-    else:
-        ans = proc(proc_input)
-        cache[proc_input] = ans
-        return ans
+    if proc_input not in cache:
+        cache[proc_input] = proc(proc_input)
+    
+    return cache[proc_input]
 
 # Here is an example showing the desired behavior of cached_execution:
 
