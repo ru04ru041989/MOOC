@@ -33,17 +33,13 @@ def union(p,q): # merge 2 list except the same item
             p.append(e)
             
 def add_to_index(index, keyword, url):
-    # format of index: [[keyword, [[url, count], [url, count],..]],...]
-    for entry in index:
-        if entry[0] == keyword:
-            for urls in entry[1]:
-                # check if current url exist already
-                if urls[0] != url:
-                    entry[1].append([url,0])
-            return
-    # not found, add new keyword to index
-    index.append([keyword, [url,0]])
-
+    ''' index as a dictionary'''
+    
+    if keyword in index: # look if keyword exist
+        index[keyword].append(url) # if yes, add url
+    else:
+        index[keyword] = [url] # if no, add new keyword to index and url
+        
     
 def add_page_to_index(index, url, content): # pair the url to all the words in the webpage
     words = content.split() # split the str in the page into words
@@ -51,17 +47,18 @@ def add_page_to_index(index, url, content): # pair the url to all the words in t
         add_to_index(index, word, url)
             # for all the word in this page, pair with the url(which has this word)
             
-def lookup(index, keyword): # look into index, find the given keyword, return the urls
-    for entry in index:
-        if entry[0] == keyword:
-            return entry[1]
-    return []
+def lookup(index, keyword):
+    '''look into index, find the given keyword, return the urls'''
+    if keyword in index:
+        return index[keyword]
+    else:
+        return None
         
 
 def crawl_web(seed):
     tocrawl = [seed]   # seed: given url, tocrawl:prepare the url for crawing
     crawled = [] # store the url which is crawed
-    index = [] # add the url, content of the page in to index
+    index = {} # add the url, content of the page in to index, index as a dictionary
     
     # start crawling 
     while tocrawl:               # repeate till no url in tocrawl
