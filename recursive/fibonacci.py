@@ -17,8 +17,26 @@ def fibonacci(n):
         return fibonacci(n-1) + fibonacci(n-2)
 
 
+print(fibonacci(0))
+#>>> 0
+print(fibonacci(1))
+#>>> 1
+print(fibonacci(15))
+#>>> 610
 
 
+
+## ====================
+#Define a faster fibonacci procedure that will enable us to computer
+#fibonacci(36).
+
+def fibonacci(n):
+    current = 0
+    after = 1
+    for i in range(0,n):
+        current, after = after, after + current
+    
+    return current
 
 print(fibonacci(0))
 #>>> 0
@@ -26,3 +44,5 @@ print(fibonacci(1))
 #>>> 1
 print(fibonacci(15))
 #>>> 610
+print(fibonacci(36))
+#>>> 14930352
