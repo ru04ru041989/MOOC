@@ -114,3 +114,19 @@ def record_user_click(index,keyword,url):
         for entry in urls:
             if entry[0] == url:
                 entry[1] = entry[1] +1
+
+
+def lucky_search(index, ranks, keyword):
+    '''takes as input an index, a ranks dictionary (the result of compute_ranks)
+       returns the one URL most likely to be the best site for that keyword
+       If the keyword does not appear in the index, return None'''
+       
+    if lookup(index,keyword) == None: # check if keyword appear in the index
+        return None
+    # creat a new dictionary ls, to store url and ranks 
+    ls = {} 
+    for i in lookup(index,keyword):
+        ls[i] = ranks[i]
+        
+    # use build-in function to get and return max value in ls
+    return max(ls, key=ls.get)
