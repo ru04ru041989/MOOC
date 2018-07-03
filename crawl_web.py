@@ -59,6 +59,7 @@ def crawl_web(seed):
     tocrawl = [seed]   # seed: given url, tocrawl:prepare the url for crawing
     crawled = [] # store the url which is crawed
     index = {} # add the url, content of the page in to index, index as a dictionary
+    graph = {} # # <url>:[list of pages it links to]
     
     # start crawling 
     while tocrawl:               # repeate till no url in tocrawl
@@ -66,13 +67,17 @@ def crawl_web(seed):
         
         if page not in crawled:  # if the url(in page) not in crawled [not crawl yet]
             content = get_page(page) # extract the content for current url
+            outlinks = get_all_links(content) # list of the links in given content
+            
             add_page_to_index(index,page,content) # update index
-            union(tocrawl, get_all_links(content)) # update tocrawl with url in current page
+            graph[page] = outlinks            
+            
+            union(tocrawl, outlinks) # update tocrawl with url in current page
                 # crawing the page using get_all_links() and add the new links to tocrawl
             crawled.append(page)
                 # after crawing, add the crawed url(page) to crawled
     
-    return index  # return the final structure for lookup to search
+    return index, graph  # return the final structure for lookup to search
     
 def record_user_click(index,keyword,url):
     urls = lookup(index,keyword)
