@@ -78,7 +78,36 @@ def crawl_web(seed):
                 # after crawing, add the crawed url(page) to crawled
     
     return index, graph  # return the final structure for lookup to search
+
+
+def compute_ranks(graph):
+    '''rank(page, 0) = 1/npages
+       rank(page, t) = (1-d)/npages 
+               + sum (d * rank(p, t - 1) / number of outlinks from p) 
+          over all pages p that link to this page '''
+          
+    d = 0.8 # damping factor
+    numloops = 10 # steps in 10 times
     
+    ranks = {} # set up ranks as and dictionary
+    npages = len(graph)
+    for page in graph: # loop over each page which storage in graph
+        ranks[page] = 1.0 / npages # intial value for each page
+    
+    for i in range(0, numloops): # compute ranks base on links for each steps
+        newranks = {}
+        for page in graph: # compute and update ranks according to the equation, for each page
+            newrank = (1 - d) / npages
+            for node in graph:
+                if page in graph[node]:
+                    newrank = newrank + d * ranks[node] / len(graph[node])
+
+            newranks[page] = newrank
+        ranks = newranks
+    return ranks
+
+
+
 def record_user_click(index,keyword,url):
     urls = lookup(index,keyword)
     if urls:
