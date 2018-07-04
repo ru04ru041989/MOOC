@@ -80,11 +80,29 @@ def crawl_web(seed):
     return index, graph  # return the final structure for lookup to search
 
 
-def compute_ranks(graph):
+def is_reciprocal_link(graph, source, destination, k):
+    ''' helper function for compute_ranks'''
+    
+    if k == 0: # k = 0, only when page self-link
+        if destination == source:
+            return True
+        return False
+    
+    if source in graph[destination]: # k = 1, when page shows up in their link's link
+        return True
+    for node in graph[destination]: # go deeper with updating node and k
+        if is_reciprocal_link(graph, source, node, k-1):
+            return True
+    return False
+
+
+def compute_ranks(graph, k):
     '''rank(page, 0) = 1/npages
        rank(page, t) = (1-d)/npages 
                + sum (d * rank(p, t - 1) / number of outlinks from p) 
-          over all pages p that link to this page '''
+          over all pages p that link to this page 
+       k: The length of a link path is the number of links which are 
+       taken to travel from one page to the other'''
           
     d = 0.8 # damping factor
     numloops = 10 # steps in 10 times
@@ -100,7 +118,8 @@ def compute_ranks(graph):
             newrank = (1 - d) / npages
             for node in graph:
                 if page in graph[node]:
-                    newrank = newrank + d * ranks[node] / len(graph[node])
+                    if not is_reciprocal_link(graph, node, page, k):
+                        newrank = newrank + d * ranks[node] / len(graph[node])
 
             newranks[page] = newrank
         ranks = newranks
