@@ -225,7 +225,7 @@ def count_common_connections(network, user_A, user_B):
 
 
 
-def find_path_to_friend(network, user_A, user_B):
+def find_path_to_friend(network, user_A, user_B, checked = None):
     ''' Finds a connections path from user_A to user_B.
     
         Arguments:
@@ -244,16 +244,21 @@ def find_path_to_friend(network, user_A, user_B):
     if user_A not in network or user_B not in network:
         return None
     
+    if checked == None:
+        checked = [user_A]
+    
     new_path = [user_A]
     if user_B in network[user_A][0]:
         new_path = new_path + [user_B]
         return new_path
     
     for ppl in network[user_A][0]:
-        path = find_path_to_friend(network, ppl, user_B)
-        if path != None:
-            new_path = new_path + path
-            return new_path
+        if ppl not in checked:
+            checked.append(ppl)
+            path = find_path_to_friend(network, ppl, user_B, checked)
+            if path:
+                new_path = new_path + path
+                return new_path
     return None
 
 
